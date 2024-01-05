@@ -520,11 +520,16 @@ function extractEmails(str) {
  *
  */
 function encodeToRot13(str) {
-  return str.replace(/[a-z]/gi, (letter) =>
-    String.fromCharCode(
-      letter.charCodeAt(0) + (letter.toLowerCase() <= 'm' ? 13 : -13)
-    )
-  );
+  let final = '';
+  const init = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const cipher = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  for (let i = 0; i < str.length; i += 1) {
+    if (!init.includes(str.charAt(i))) {
+      final += str.charAt(i);
+    }
+    final += cipher.charAt(init.indexOf(str.charAt(i)));
+  }
+  return final;
 }
 
 /**
@@ -553,7 +558,7 @@ function encodeToRot13(str) {
  */
 function getCardId(value) {
   const strArr =
-    "'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣','A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦','A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥','A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'".split(
+    'A♣,2♣,3♣,4♣,5♣,6♣,7♣,8♣,9♣,10♣,J♣,Q♣,K♣,A♦,2♦,3♦,4♦,5♦,6♦,7♦,8♦,9♦,10♦,J♦,Q♦,K♦,A♥,2♥,3♥,4♥,5♥,6♥,7♥,8♥,9♥,10♥,J♥,Q♥,K♥,A♠,2♠,3♠,4♠,5♠,6♠,7♠,8♠,9♠,10♠,J♠,Q♠,K♠'.split(
       ','
     );
   return strArr.indexOf(value);
